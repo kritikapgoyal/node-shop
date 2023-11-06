@@ -1,0 +1,18 @@
+<%- include('includes/head.ejs') %>
+    <body>
+        <%- include('includes/nav.ejs') %>
+        <% if (products.length > 0) { %>
+            <h1 class="title">Products</h1>
+            <div class="container">
+                <% for (const prod of products) { %>
+                    <div class="item">
+                        <h1>Name - <%= prod.name %></h1>
+                        <h3>Quantity - <%= prod.qty %></h3>
+                    </div>
+                <% } %>
+            </div>
+        <% } else { %>
+            <h1>No products in Shop yet!</h1>
+        <% } %>
+    </body>
+<%- include('includes/end.ejs') %>
