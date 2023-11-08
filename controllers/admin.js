@@ -9,6 +9,15 @@ exports.getAddProduct = (req, res) => {
 exports.postAddProduct = (req, res) => {
     const { name, qty } = req.body;
     const product = new Product(name, qty);
-    product.addProduct();
-    res.redirect('/');
+    product
+        .addProduct()
+        .then(() => res.redirect('/'))
+        .catch((err) => console.error(err));
+};
+
+exports.postDeleteProduct = (req, res) => {
+    const { prodId } = req.params;
+    Product.deleteProductById(prodId)
+        .then(() => res.redirect('/'))
+        .catch((err) => console.error(err));
 };

@@ -8,6 +8,9 @@
                     <div class="item">
                         <h1>Name - <%= prod.name %></h1>
                         <h3>Quantity - <%= prod.qty %></h3>
+                        <form method="post" action="/admin/delete-product/<%= prod.id %>">
+                            <button class="delete" type="submit">Delete Product</button>
+                        </form>
                     </div>
                 <% } %>
             </div>

@@ -1,17 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+const db = require('../db');
 
 const dataPath = path.join(__dirname, '../', 'data', 'products.json');
-
-const readData = (cb) => {
-    fs.readFile(dataPath, (err, data) => {
-        if (err) {
-            return cb([]);
-        }
-        const parsedData = JSON.parse(data);
-        return cb(parsedData);
-    });
-};
 
 module.exports = class Product {
     constructor(name, qty) {
@@ -20,15 +11,17 @@ module.exports = class Product {
     }
 
     addProduct() {
-        readData((prodData) => {
-            prodData.push(this);
-            fs.writeFile(dataPath, JSON.stringify(prodData), (err) => {
-                console.error('Error writing file - ', err);
-            });
-        });
+        return db.execute('INSERT INTO products (name, qty) VALUES(?, ?)', [
+            this.name,
+            this.qty,
+        ]);
     }
 
-    static fetchProducts(cb) {
-        readData(cb);
+    static fetchProducts() {
+        return db.execute('SELECT * FROM products');
+    }
+
+    static deleteProductById(id) {
+        return db.execute('DELETE FROM products WHERE id = ?', [id]);
     }
 };
